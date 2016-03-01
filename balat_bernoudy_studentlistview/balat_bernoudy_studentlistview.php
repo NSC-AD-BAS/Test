@@ -27,7 +27,7 @@ function print_student_list($results)
 {
     echo "<h2>" . count($results) . " rows returned." . "</h2>";
     echo "<table>";
-    echo "<tr><td>Student Name</td><td>SID</td><td>Cohort</td><td>Internship</td><td>Notes</td>></tr>";
+    echo "<tr><th>Student Name</th><th>SID</th><th>Cohort</th><th>Internship</th><th>Notes</th></tr>";
     foreach ($results as $student) {
         echo "<tr>";
         echo "<td>".$student['Student Name'] . "</td><td>" . $student['SID'] . "</td><td>" . $student['Cohort'] . "</td><td>" . $student['Internship'] . "</td><td>" . $student['Notes'] . "</td>";
