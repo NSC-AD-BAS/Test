@@ -11,23 +11,31 @@ function get_student_lists($query)
     }
     $results = mysqli_query($conn, $query);
     mysqli_close($conn);
-    return $results;
-}
-
-function format_student_list($results)
-{
-    $formatted_results = "<ul>";
-    $formatted_rows = array();
-    while ($row = mysqli_fetch_assoc($results)) {
-        $formatted_rows[] = array('<li>StudentId: ' . $row["StudentId"] . ' Name: ' . $row["FullName"] . '</li>');
-        //' Contact: ' . $row["ContactInfo"] . " Program Status: " . $row["ProgramStatus"] . " Cohort: " . $row["Cohort"] . "</li>");
+    if ($results == FALSE) {
+        return array();
+    } else {
+        $arr = array();
+        while ($row = $results->fetch_assoc()) {
+            $arr[] = $row;
+        }
+        $results->free();
+        return $arr;
     }
-    $formatted_results = $formatted_results . "</ul>";
-    return $formatted_rows;
 }
 
-//function from php file that inserts formatted data
-
+function print_student_list($results)
+{
+    echo "<h2>" . count($results) . " rows returned." . "</h2>";
+    echo "<table>";
+    echo "<tr><td>Student Name</td><td>SID</td><td>Cohort</td><td>Internship</td><td>Notes</td>></tr>";
+    foreach ($results as $student) {
+        echo "<tr>";
+        echo "<td>".$student['Student Name'] . "</td><td>" . $student['SID'] . "</td><td>" . $student['Cohort'] . "</td><td>" . $student['Internship'] . "</td><td>" . $student['Notes'] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+    echo "<br>";
+}
 
 ?>
 
@@ -39,20 +47,10 @@ function format_student_list($results)
 
 <?php
 // Query string to use to get a list of students
-$query =
-    "SELECT StudentId, FullName, ContactInfo, ProgramStatus, Cohort FROM students as s
-                  JOIN users as u ON u.UserId = s.UserId
-                  WHERE u.TypeId = 1";
+$query = "SELECT * FROM student_list WHERE `Program Status` LIKE 'Active'";
 
 $student_list = get_student_lists($query);
-// Check results
-if ($student_list == FALSE) {
-    // print error message
-    echo "<div class='error'>0 results found</div>";
-} else {
-    echo mysqli_num_rows($student_list) . " results</br>";
-    implode(" ", format_student_list($student_list));
-}
+print_student_list($student_list);
 ?>
 
 </body>
