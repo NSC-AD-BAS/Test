@@ -15,9 +15,11 @@ function get_student_lists($query)
         return array();
     } else {
         $arr = array();
+        // Get each result row as an associative array
         while ($row = $results->fetch_assoc()) {
             $arr[] = $row;
         }
+        // Free the memory $results used as we now have everything in $arr
         $results->free();
         return $arr;
     }
@@ -26,11 +28,28 @@ function get_student_lists($query)
 function print_student_list($results)
 {
     echo "<h2>" . count($results) . " rows returned." . "</h2>";
+
+    // indicates that a header row needs to be printed
+    $header = true;
+    $columns = array_keys($results[0]);
+
     echo "<table>";
-    echo "<tr><th>Student Name</th><th>SID</th><th>Cohort</th><th>Internship</th><th>Notes</th></tr>";
     foreach ($results as $student) {
+        if ($header == true) {
+            // Create a header row from the Keys
+            echo "<tr>";
+            foreach ($columns as $column) {
+                echo "<th>" . $column . "</th>";
+            }
+            echo "</tr>";
+            // Header row is printed, so change $header to false
+            $header = false;
+        }
         echo "<tr>";
-        echo "<td>".$student['Student Name'] . "</td><td>" . $student['SID'] . "</td><td>" . $student['Cohort'] . "</td><td>" . $student['Internship'] . "</td><td>" . $student['Notes'] . "</td>";
+        // Print out each column based on the keys
+        foreach ($columns as $column) {
+            echo "<td>" . $student[$column] . "</td>";
+        }
         echo "</tr>";
     }
     echo "</table>";
@@ -48,8 +67,9 @@ function print_student_list($results)
 <?php
 // Query string to use to get a list of students
 $query = "SELECT * FROM student_list WHERE `Program Status` LIKE 'Active'";
-
+// Get the students as an array
 $student_list = get_student_lists($query);
+// Output them in a table
 print_student_list($student_list);
 ?>
 
