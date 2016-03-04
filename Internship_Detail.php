@@ -17,7 +17,7 @@
 <?php
 $ID = $_GET["id"];
 $ORGN = $_GET["orgName"];
-if($ID==0){header("Location: internship_list.php");}
+if($ID==0 || $ID==NULL){header("Location: internship_list.php");}
 
 $server = "45.40.164.16";
 $username="prismroot";
