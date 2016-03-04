@@ -17,6 +17,7 @@
 <?php
 $ID = $_GET["id"];
 $ORGN = $_GET["orgName"];
+if($ID==0){header("Location: internship_list.php");}
 
 $server = "45.40.164.16";
 $username="prismroot";
@@ -35,22 +36,22 @@ $num=mysqli_num_rows($result);
 //echo "0 results";
 //}else {
         $i=0;
-		while($row = mysqli_fetch_assoc($result)) {
-		$intshpid = $row['InternshipId'];
-		$pos = $row['PositionTitle'];
-		$desc = $row['Description'];
-		$orgid = $row['OrganizationId'];
+	while($row = mysqli_fetch_assoc($result)) {
+	$intshpid = $row['InternshipId'];
+	$pos = $row['PositionTitle'];
+	$desc = $row['Description'];
+	$orgid = $row['OrganizationId'];
         $state = $row['LocationState'];
         $zip = $row['LocationZip'];
         $posted = $row['DatePosted'];
-		$sdate = $row['AppStartDate'];
-		$edate = $row['AppEndDate'];
+	$sdate = $row['AppStartDate'];
+	$edate = $row['AppEndDate'];
         $wsdate = $row['StartDate'];
     	$wedate = $row['EndDate'];
-		$slots = $row['SlotsAvailable'];
-		$last = $row['LastUpdated'];
+	$slots = $row['SlotsAvailable'];
+	$last = $row['LastUpdated'];
 		
-		$i++;
+	$i++;
 }
 
 $sql2="SELECT * FROM organizations WHERE OrganizationId = $orgid";
@@ -58,7 +59,7 @@ $result2=mysqli_query($conn, $sql2);
 $num=mysqli_num_rows($result2);
         $i=0;
     	while($row = mysqli_fetch_assoc($result2)) {
-		$orgn = $row['OrganizationName'];
+	$orgn = $row['OrganizationName'];
         $i++;
     	}
 mysqli_close($conn);
@@ -123,9 +124,9 @@ $orgPage= "Organization_detail.php?id=$orgid";
 </div>
 <p>
 <form method="post">
-	<input name="prev_button" type="button" value="prev" onClick="location.href='<?php echo $prev ?>'" />
-    <input name="next_button" type="button" value="next" onClick="location.href=' <?php echo $next ?> '" />&nbsp;&nbsp;&nbsp;
-	<input name="list_view" style="width: 96px" type="button" value="list view" onClick="location.href=' internship_list.php '"/></form>
+  <input name="prev_button" type="button" value="prev" onClick="location.href='<?php echo $prev ?>'" />
+  <input name="next_button" type="button" value="next" onClick="location.href=' <?php echo $next ?> '" />&nbsp;&nbsp;&nbsp;
+  <input name="list_view" style="width: 96px" type="button" value="list view" onClick="location.href=' internship_list.php '"/></form>
 </p>
 
 </body>
