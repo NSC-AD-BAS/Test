@@ -125,7 +125,7 @@ $orgPage= "Organization_detail.php?id=$orgid";
 <form method="post">
 	<input name="prev_button" type="button" value="prev" onClick="location.href='<?php echo $prev ?>'" />
     <input name="next_button" type="button" value="next" onClick="location.href=' <?php echo $next ?> '" />&nbsp;&nbsp;&nbsp;
-	<input name="list_view" style="width: 96px" type="button" value="list view" onClick="location.href=' http://electronat.com/internship_list.php '"/></form>
+	<input name="list_view" style="width: 96px" type="button" value="list view" onClick="location.href=' internship_list.php '"/></form>
 </p>
 
 </body>
