@@ -25,7 +25,8 @@ function get_student_lists($query)
     }
 }
 
-function print_student_list($results)
+//added new parameters $studentLink - in this case it would be SID
+function print_student_list($results, $detailsLink)
 {
     echo "<h2>" . count($results) . " rows returned." . "</h2>";
 
@@ -48,7 +49,16 @@ function print_student_list($results)
         echo "<tr>";
         // Print out each column based on the keys
         foreach ($columns as $column) {
-            echo "<td>" . $student[$column] . "</td>";
+        
+        //setting the link to the $studentLink
+        if ( $column == $detailsLink){
+        		//$student_details.php would be the link from Sam's php
+       		 echo '<td><a href="$student_details.php'.$student[$column].'">'
+       		 .$student[$column].'</a></td>';
+       		 
+       		 }else{  
+       		 echo "<td>" . $student[$column] . "</td>";
+         }
         }
         echo "</tr>";
     }
@@ -63,15 +73,16 @@ function print_student_list($results)
     <title>PHP Test</title>
 </head>
 <body>
-
 <?php
 // Query string to use to get a list of students
 $query = "SELECT * FROM student_list WHERE `Program Status` LIKE 'Active'";
 // Get the students as an array
 $student_list = get_student_lists($query);
 // Output them in a table
-print_student_list($student_list);
-?>
 
+//Parameter $studentLink set to SID
+print_student_list($student_list, "SID");
+?>
+</table>
 </body>
 </html>
