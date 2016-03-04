@@ -18,7 +18,7 @@
 $ID = $_GET["id"];
 $ORGN = $_GET["orgName"];
 
-$server = "45.40.164.23";
+$server = "45.40.164.16";
 $username="prismroot";
 $password="root!4ROOT";
 $database="prismroot";
@@ -26,7 +26,7 @@ $conn = mysqli_connect($server, $username, $password, $database);
 if (!$conn) {
     die("Unable to select database" . mysql_connect_error());
 }
-$sql="SELECT * FROM internship WHERE IntershipId = $ID";
+$sql="SELECT * FROM internships WHERE InternshipId = $ID";
 $result=mysqli_query($conn, $sql);
 $num=mysqli_num_rows($result); 
 
@@ -36,22 +36,24 @@ $num=mysqli_num_rows($result);
 //}else {
         $i=0;
 		while($row = mysqli_fetch_assoc($result)) {
-		$intshpid = $row['IntershipId'];
+		$intshpid = $row['InternshipId'];
 		$pos = $row['PositionTitle'];
 		$desc = $row['Description'];
 		$orgid = $row['OrganizationId'];
         $state = $row['LocationState'];
         $zip = $row['LocationZip'];
         $posted = $row['DatePosted'];
-		$sdate = $row['StartDate'];
-		$edate = $row['EndDate'];
+		$sdate = $row['AppStartDate'];
+		$edate = $row['AppEndDate'];
+        $wsdate = $row['StartDate'];
+    	$wedate = $row['EndDate'];
 		$slots = $row['SlotsAvailable'];
 		$last = $row['LastUpdated'];
 		
 		$i++;
 }
 
-$sql2="SELECT * FROM organization WHERE OrganizationId = $orgid";
+$sql2="SELECT * FROM organizations WHERE OrganizationId = $orgid";
 $result2=mysqli_query($conn, $sql2);
 $num=mysqli_num_rows($result2);
         $i=0;
@@ -64,8 +66,8 @@ mysqli_close($conn);
 
 $pid = $ID-1;
 $nid = $ID+1;
-$prev= "http://electronat.com/Internship_Detail.php?id=$pid";
-$next= "http://electronat.com/Internship_Detail.php?id=$nid";
+$prev= "Internship_Detail.php?id=$pid";
+$next= "Internship_Detail.php?id=$nid";
 
 $orgPage= "Organization_detail.php?id=$orgid";
 
@@ -74,49 +76,43 @@ $orgPage= "Organization_detail.php?id=$orgid";
 <div>
 	<table style="width: 100%" cellspacing="1">
 		<tr>
-			<td style="height: 45px; width: 275px" class="auto-style1">Organization: </td>
-			<td style="height: 45px"> 
-			<form action="" method="post" name="Organization" style="width: 229px">
-            <a href='<?php echo $orgPage; ?>'><?php echo $orgn ?></a> 
-            </form>
-			</td>
+			<td style="width: 145px" class="auto-style1">Organization: </td>
+			<td>
+			<a href='<?php echo $orgPage; ?>'><?php echo $orgn ?></a> 
+			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px; height: 45px" class="auto-style1">Position Title: </td>
-			<td style="height: 45px"> 
-			<form action="" method="post" name="Position Title" style="width: 229px">
-<?php echo $pos; ?></form>
-			</td>
+			<td style="width: 145px" class="auto-style1">Position Title: </td>
+			<td>
+			<?php echo $pos; ?>
+			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px" class="auto-style1">Posted Date: </td>
-			<td> 
-			<form action="" method="post" name="postedDate" style="width: 229px">
-<?php echo $posted; ?></form>
-			</td>
+			<td style="width: 145px" class="auto-style1">Posted Date: </td>
+			<td>
+			<?php echo $posted; ?>
+			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px" class="auto-style1">Start & End Date: </td>
-			<td> 
-			<form action="" method="post" name="Slots" style="width: 228px">
-<?php echo $sdate." to ". $edate ?></form>
-			</td>
+			<td style="width: 145px" class="auto-style1">Start & End Date: </td>
+			<td>
+			<?php echo $sdate." to ". $edate ?>
+			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px" valign="top" class="auto-style1">Location:</td>
+			<td style="width: 145px" valign="top" class="auto-style1">Location:</td>
 			<td>
             <?php echo $state."  ". $zip ?>
 			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px" class="auto-style1" valign="top">Description:</td>
-			<td> 
-<form action="" method="post" name="Description" style="width: 451px; height: 236px">
-			<?php echo $desc; ?></form>
-			</td>
+			<td style="width: 145px" valign="top" class="auto-style1">Description:</td>
+			<td>
+			<?php echo $desc; ?> 
+			&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="width: 275px" class="auto-style1">&nbsp;last updated: </td>
+			<td style="width: 145px" class="auto-style1">&nbsp;last updated: </td>
 			<td> 
 			<form action="" method="post" name="last updated" style="width: 146px">
 <?php echo $last; ?>
