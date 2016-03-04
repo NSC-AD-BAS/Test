@@ -31,10 +31,6 @@ $sql="SELECT * FROM internships WHERE InternshipId = $ID";
 $result=mysqli_query($conn, $sql);
 $num=mysqli_num_rows($result); 
 
-
-//if($num < 1 ) {
-//echo "0 results";
-//}else {
         $i=0;
 	while($row = mysqli_fetch_assoc($result)) {
 	$intshpid = $row['InternshipId'];
