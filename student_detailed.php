@@ -18,10 +18,15 @@ class student_detailed {
   private $stud_row;
   private $user_row;
   private $user_notes_table;
+<<<<<<< HEAD
   private $student_id;
   private $conn;
   private $user_notes = [];
   private $userId;
+=======
+  private $conn;
+  private $user_notes = [];
+>>>>>>> 92781e23bc00bc9c1823c4108e54804a792c1326
   /**
    * Constructor
    *
@@ -45,6 +50,7 @@ class student_detailed {
    *assuming that we already have students from a link
    */
   public function getQueryTerms($search_term){
+<<<<<<< HEAD
 	//$this->student_search_term = $search_term;
 	$this->student_id = $search_term;
 	$this->student_search_term = mysqli_query($this->conn, "SELECT * FROM students
@@ -59,6 +65,18 @@ class student_detailed {
 	$this->getUserNotes();
 	mysqli_close($this->conn);
 
+=======
+	$this->student_search_term = $search_term;
+	$this->stud_row = mysqli_fetch_assoc($this->student_search_term);
+	$userId = $this->stud_row["UserId"];
+	$this->user_notes_table = mysqli_query($this->conn, "SELECT * FROM user_notes
+													     WHERE UserId = '$userId'");
+	$this->getUserNotes();
+	$sql = "SELECT * FROM users 
+			WHERE UserId = '$userId'";
+	$this->user_search_term = mysqli_query($this->conn, $sql);
+	$this->user_row = mysqli_fetch_assoc($this->user_search_term);
+>>>>>>> 92781e23bc00bc9c1823c4108e54804a792c1326
   }
    /**
     * Function that returns the row with the student query in it
@@ -134,6 +152,7 @@ class student_detailed {
   }
   
   /**
+<<<<<<< HEAD
 	* Return element of the row checked, to be used in a print later
 	* @return the FullName of the user from the user row
 	*/
@@ -198,6 +217,8 @@ class student_detailed {
   }
   
   /**
+=======
+>>>>>>> 92781e23bc00bc9c1823c4108e54804a792c1326
 	* Display Methods here will be used when we need to display and change the messages
 	*/
   public function displayFullName(){
@@ -250,8 +271,12 @@ class student_detailed {
    * Method that echos all the data about the student into html from the query results
    */
   public function displayStudDetails(){
+<<<<<<< HEAD
 	echo "StudentID: " . $this->student_id . "<br>";
 	echo "UserId: " . $this->userId . "<br>";
+=======
+	echo "UserId: " . $this->user_row["UserId"] . "<br>";
+>>>>>>> 92781e23bc00bc9c1823c4108e54804a792c1326
 	echo "Name: " . $this->user_row["FullName"] . "<br>";
 	echo "UserName: " . $this->user_row["UserName"] . "<br>";
 	echo "Contact Info: " . $this->user_row["ContactInfo"] . "<br>";
