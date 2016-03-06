@@ -33,7 +33,7 @@ function print_student_list($results, $detailsLink)
     // indicates that a header row needs to be printed
     $header = true;
     $columns = array_keys($results[0]);
-
+    echo'<form name="student_id" action="testStudDetail.php" method="POST">';
     echo "<table>";
     foreach ($results as $student) {
         if ($header == true) {
@@ -49,20 +49,20 @@ function print_student_list($results, $detailsLink)
         echo "<tr>";
         // Print out each column based on the keys
         foreach ($columns as $column) {
-        
-        //setting the link to the $studentLink
-        if ( $column == $detailsLink){
-        		//$student_details.php would be the link from Sam's php
-       		 echo '<td><a href="$student_details.php'.$student[$column].'">'
-       		 .$student[$column].'</a></td>';
-       		 
-       		 }else{  
-       		 echo "<td>" . $student[$column] . "</td>";
-         }
+
+            //setting the link to the $studentLink
+            if ($column == $detailsLink) {
+                echo "<td>";
+                echo '<input type="submit" name="student_id" value=" '.$student[$column].' " />';
+                echo "</td>";
+            } else {
+                echo "<td>" . $student[$column] . "</td>";
+            }
         }
         echo "</tr>";
     }
     echo "</table>";
+    echo "</form>";
     echo "<br>";
 }
 
@@ -83,6 +83,5 @@ $student_list = get_student_lists($query);
 //Parameter $studentLink set to SID
 print_student_list($student_list, "SID");
 ?>
-</table>
 </body>
 </html>
