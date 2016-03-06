@@ -15,25 +15,54 @@ function get_student_lists($query)
         return array();
     } else {
         $arr = array();
+        // Get each result row as an associative array
         while ($row = $results->fetch_assoc()) {
             $arr[] = $row;
         }
+        // Free the memory $results used as we now have everything in $arr
         $results->free();
         return $arr;
     }
 }
 
-function print_student_list($results)
+//added new parameters $studentLink - in this case it would be SID
+function print_student_list($results, $detailsLink)
 {
     echo "<h2>" . count($results) . " rows returned." . "</h2>";
+
+    // indicates that a header row needs to be printed
+    $header = true;
+    $columns = array_keys($results[0]);
+    echo'<form name="student_id" action="testStudDetail.php" method="POST">';
     echo "<table>";
-    echo "<tr><th>Student Name</th><th>SID</th><th>Cohort</th><th>Internship</th><th>Notes</th></tr>";
     foreach ($results as $student) {
+        if ($header == true) {
+            // Create a header row from the Keys
+            echo "<tr>";
+            foreach ($columns as $column) {
+                echo "<th>" . $column . "</th>";
+            }
+            echo "</tr>";
+            // Header row is printed, so change $header to false
+            $header = false;
+        }
         echo "<tr>";
-        echo "<td>".$student['Student Name'] . "</td><td>" . $student['SID'] . "</td><td>" . $student['Cohort'] . "</td><td>" . $student['Internship'] . "</td><td>" . $student['Notes'] . "</td>";
+        // Print out each column based on the keys
+        foreach ($columns as $column) {
+
+            //setting the link to the $studentLink
+            if ($column == $detailsLink) {
+                echo "<td>";
+                echo '<input type="submit" name="student_id" value=" '.$student[$column].' " />';
+                echo "</td>";
+            } else {
+                echo "<td>" . $student[$column] . "</td>";
+            }
+        }
         echo "</tr>";
     }
     echo "</table>";
+    echo "</form>";
     echo "<br>";
 }
 
@@ -44,14 +73,15 @@ function print_student_list($results)
     <title>PHP Test</title>
 </head>
 <body>
-
 <?php
 // Query string to use to get a list of students
 $query = "SELECT * FROM student_list WHERE `Program Status` LIKE 'Active'";
-
+// Get the students as an array
 $student_list = get_student_lists($query);
-print_student_list($student_list);
-?>
+// Output them in a table
 
+//Parameter $studentLink set to SID
+print_student_list($student_list, "SID");
+?>
 </body>
 </html>
