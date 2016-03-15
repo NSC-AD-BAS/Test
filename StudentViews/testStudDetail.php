@@ -6,7 +6,8 @@ if(isset($_POST['student_id'])){
   require_once( dirname( __FILE__ ) . '/student_detailed.php' );
   
   //quick search to initialize the class
-  $conn = mysqli_connect('localhost', 'root', 'root', 'prism');
+  include 'db_connect.php';
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
   $student_search_term = mysqli_query($conn, "SELECT * FROM students
 											  WHERE StudentId = 1");
   // Test to check if we can just have a name to query the database
